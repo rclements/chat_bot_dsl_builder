@@ -10,7 +10,7 @@
           <button ng-if="astIsBarebonesIfWithPlaceholder()" class="ui button"
             ng-click="getIfConditions()">add condition</button>
           <button ng-if="!astIsBarebonesIfWithPlaceholder() ||
-            astIsIfWithConditionAndAction()" class="ui button">input contains
+            astIsIfWithConditionAndAction()" ng-click="getIfConditions()" class="ui button">input contains
             "{{getIfCondition()}}"</button>
           <strong>then</strong>
         </p>
@@ -32,7 +32,7 @@
     <div class="header">Choose if Condition</div>
     <div class"content">
       <ul ng-repeat="condition in availableIfConditions">
-        <li ng-click="setIfCondition(condition)">{{condition}}</li>
+        <li ng-click="setIfCondition(condition)">{{condition | json}}</li>
       </ul>
     </div>
   </div>

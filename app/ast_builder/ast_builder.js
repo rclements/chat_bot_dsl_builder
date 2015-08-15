@@ -39,9 +39,19 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
   };
 
 
-  $scope.availableIfConditions = ["input contains tableflip"];
+  $scope.availableIfConditions = [
+    [
+      ["atom", "input"],
+      ["atom", "contains"],
+      ["string", ":tableflip:"]
+    ],
+    [
+      ["atom", "input"],
+      ["atom", "contains"],
+      ["string", "filthy"]
+    ]
+  ];
 
-  $scope.numbers = [1, 2, 3];
   $scope.createBlock = function(type){
     if(type === 'if'){
       $scope.ast = $scope.templates().barebonesIf;
@@ -69,11 +79,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
     //return $scope.availableIfConditions;
   };
   $scope.setIfCondition = function(condition) {
-    $scope.condition =  ["tuple",
-                         ["atom", "input"],
-                         ["atom", "contains"],
-                         ["string", ":tableflip:"]
-                       ];
+    $scope.condition =  ["tuple"].concat(condition);
     $scope.ast = $scope.templates().ifWithCondition;
     angular.element('#ifConditionsModal')
       .modal('hide');
