@@ -3,42 +3,19 @@
     <div ng-if="astIsEmpty()">
       <button class="ui button" ng-click="createBlock('if')">+</button>
     </div>
-    <div ng-if="astIsBarebonesIf()">
+    <div ng-if="!astIsEmpty()">
       <div class="ui segment">
         <p>
-          <strong>if</strong> <button class="ui button"
-        ng-click="addIfCondition()">add condition</button> <strong>then</strong>
+          <strong>if</strong>
+          <button ng-if="astIsBarebonesIf()" class="ui button" ng-click="addIfCondition()">add condition</button>
+          <button ng-if="astIsIfWithCondition() ||
+            astIsIfWithConditionAndAction()" class="ui button">input contains
+            "{{getIfCondition()}}"</button>
+          <strong>then</strong>
         </p>
         <div class="ui segment">
-          <button class="ui button">Add action</button>
-        </div>
-        <p>
-          <strong>end</strong>
-        </p>
-      </div>
-    </div>
-    <div ng-if="astIsIfWithCondition()">
-      <div class="ui segment">
-        <p>
-          <strong>if</strong> <button class="ui button">input contains
-            "{{getIfCondition()}}"</button> <strong>then</strong>
-        </p>
-        <div class="ui segment">
-          <button class="ui button" ng-click="addIfAction()">Add action</button>
-        </div>
-        <p>
-          <strong>end</strong>
-        </p>
-      </div>
-    </div>
-    <div ng-if="astIsIfWithConditionAndAction()">
-      <div class="ui segment">
-        <p>
-          <strong>if</strong> <button class="ui button">input contains
-            ":tableflip:"</button> <strong>then</strong>
-        </p>
-        <div class="ui segment">
-          <p>
+          <button ng-if="astIsIfWithCondition()" class="ui button" ng-click="addIfAction()">Add action</button>
+          <p ng-if="astIsIfWithConditionAndAction()">
             respond with "(╯°□°）╯︵ ┻━┻"
           </p>
         </div>

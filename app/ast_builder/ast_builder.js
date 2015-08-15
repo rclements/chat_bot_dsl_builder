@@ -24,7 +24,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
                        ["tuple",
                          ["atom", "input"],
                          ["atom", "contains"],
-                         ["string", ":tableflop:"]
+                         ["string", ":tableflip:"]
                        ],
                        ["placeholder"]
                      ],
@@ -33,7 +33,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
                        ["tuple",
                          ["atom", "input"],
                          ["atom", "contains"],
-                         ["string", "filthy"]
+                         ["string", ":tableflip:"]
                        ],
                        ["response", "(╯°□°）╯︵ ┻━┻"]
                      ]
