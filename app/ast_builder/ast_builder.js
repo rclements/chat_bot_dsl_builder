@@ -11,33 +11,16 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
   });
 }])
 
-
 .controller('AstBuilderCtrl', ['$scope', function($scope) {
   $scope.condition = ["placeholder"];
-  $scope.templates = function(){
-    return {
-      barebonesIf: ["tuple",
-                     ["atom", "if"],
-                     $scope.condition,
-                     ["placeholder"]
-                   ],
-      ifWithCondition: ["tuple",
-                         ["atom", "if"],
-                         $scope.condition,
-                         ["placeholder"]
-                       ],
-      ifWithConditionAndAction: ["tuple",
-                         ["atom", "if"],
-                         ["tuple",
-                           ["atom", "input"],
-                           ["atom", "contains"],
-                           ["string", ":tableflip:"]
-                         ],
-                         ["response", "(╯°□°）╯︵ ┻━┻"]
-                       ]
-    };
+  $scope.action    = ["placeholder"];
+  $scope.setAst = function(){
+    $scope.ast = ["tuple",
+                   ["atom", "if"],
+                   $scope.condition,
+                   $scope.action
+                 ];
   };
-
 
   $scope.availableIfConditions = [
     [
@@ -52,25 +35,20 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
     ]
   ];
 
+  $scope.availableIfActions = [
+    ["response", "(╯°□°）╯︵ ┻━┻"]
+  ];
+
   $scope.createBlock = function(type){
     if(type === 'if'){
-      $scope.ast = $scope.templates().barebonesIf;
+      $scope.setAst();
     }
   };
   $scope.astIsEmpty = function(){
     return angular.equals($scope.ast, {});
   };
-  $scope.astIsBarebonesIf = function(){
-    return angular.equals($scope.ast, $scope.templates().barebonesIf);
-  };
   $scope.astIsBarebonesIfWithPlaceholder = function(){
     return angular.equals($scope.condition, ["placeholder"]);
-  };
-  $scope.astIsIfWithCondition = function(){
-    return angular.equals($scope.ast, $scope.templates().ifWithCondition);
-  };
-  $scope.astIsIfWithConditionAndAction = function(){
-    return angular.equals($scope.ast, $scope.templates().ifWithConditionAndAction);
   };
   $scope.getIfConditions = function(){
     // open modal
@@ -80,19 +58,36 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
   };
   $scope.setIfCondition = function(condition) {
     $scope.condition =  ["tuple"].concat(condition);
-    $scope.ast = $scope.templates().ifWithCondition;
+    $scope.setAst();
     angular.element('#ifConditionsModal')
       .modal('hide');
   };
+  $scope.getIfActions = function() {
+    // open modal
+    angular.element('#ifActionsModal')
+      .modal('show');
+  };
+  $scope.setIfAction = function(action) {
+    console.log("setting ", action);
+    $scope.action = action;
+    $scope.setAst();
+    angular.element('#ifActionsModal')
+      .modal('hide');
+  };
   $scope.addIfCondition = function(){
-    $scope.ast = $scope.templates().ifWithCondition;
+    $scope.setAst();
   };
   $scope.addIfAction = function(){
-    $scope.ast = $scope.templates().ifWithConditionAndAction;
+    $scope.setAst();
   };
   $scope.getIfCondition = function(){
-    console.log($scope.ast);
     return $scope.ast[2][3][1];
+  };
+  $scope.astIfConditionIsPlaceholder = function(){
+    return angular.equals($scope.ast[2], ["placeholder"]);
+  };
+  $scope.astIfActionIsPlaceholder = function(){
+    return angular.equals($scope.ast[3], ["placeholder"]);
   };
   $scope.ast = {};
 }]);

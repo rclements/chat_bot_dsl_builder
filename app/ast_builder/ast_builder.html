@@ -7,17 +7,17 @@
       <div class="ui segment">
         <p>
           <strong>if</strong>
-          <button ng-if="astIsBarebonesIfWithPlaceholder()" class="ui button"
+          <button ng-if="astIfConditionIsPlaceholder()" class="ui button"
             ng-click="getIfConditions()">add condition</button>
-          <button ng-if="!astIsBarebonesIfWithPlaceholder() ||
-            astIsIfWithConditionAndAction()" ng-click="getIfConditions()" class="ui button">input contains
+          <button ng-if="!astIfConditionIsPlaceholder()" ng-click="getIfConditions()" class="ui button">input contains
             "{{getIfCondition()}}"</button>
           <strong>then</strong>
         </p>
         <div class="ui segment">
-          <button ng-if="astIsIfWithCondition()" class="ui button" ng-click="addIfAction()">Add action</button>
-          <p ng-if="astIsIfWithConditionAndAction()">
-            respond with "(╯°□°）╯︵ ┻━┻"
+          <button ng-if="astIfActionIsPlaceholder()" class="ui button"
+            ng-click="getIfActions()">Add action</button>
+          <p ng-if="!astIfActionIsPlaceholder()">
+            respond with {{action | json}}
           </p>
         </div>
         <p>
@@ -36,4 +36,14 @@
       </ul>
     </div>
   </div>
+
+  <div class="ui modal" id="ifActionsModal">
+    <div class="header">Choose if Action</div>
+    <div class"content">
+      <ul ng-repeat="action in availableIfActions">
+        <li ng-click="setIfAction(action)">{{action | json}}</li>
+      </ul>
+    </div>
+  </div>
+
 </div>
