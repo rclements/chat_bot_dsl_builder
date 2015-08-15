@@ -1,0 +1,11 @@
+<div ng-controller="AstBuilderCtrl">
+  <div class="ast">
+    <div ng-if="astIsEmpty()">
+      <button ng-click="createBlock('if')">+</button>
+    </div>
+    <div ng-if="astIsBarebonesIf()">
+      it's barebones if
+    </div>
+    {{ ast | json }}
+  </div>
+</div>

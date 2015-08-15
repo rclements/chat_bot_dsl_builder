@@ -1,7 +1,7 @@
 'use strict';
 
-describe('myApp.version module', function() {
-  beforeEach(module('myApp.version'));
+describe('chatbotApp.version module', function() {
+  beforeEach(module('chatbotApp.version'));
 
   describe('interpolate filter', function() {
     beforeEach(module(function($provide) {
