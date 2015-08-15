@@ -11,8 +11,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
   });
 }])
 
-.controller('AstBuilderCtrl', function($scope, $http) {
-
+.controller('AstBuilderCtrl', ['$scope', function($scope) {
   var templates = {
     barebonesIf: ["tuple",
                    ["atom", "if"],
@@ -39,6 +38,8 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
                      ]
   };
 
+  $scope.availableIfConditions = ["input contains tableflip"];
+
   $scope.numbers = [1, 2, 3];
   $scope.createBlock = function(type){
     if(type === 'if'){
@@ -57,6 +58,12 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
   $scope.astIsIfWithConditionAndAction = function(){
     return angular.equals($scope.ast, templates.ifWithConditionAndAction);
   };
+  $scope.getIfConditions = function(){
+    // open modal
+    angular.element('#ifConditionsModal')
+      .modal('show');
+    //return $scope.availableIfConditions;
+  };
   $scope.addIfCondition = function(){
     $scope.ast = templates.ifWithCondition;
   };
@@ -67,4 +74,4 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
     return $scope.ast[2][3][1];
   };
   $scope.ast = {};
-});
+}]);

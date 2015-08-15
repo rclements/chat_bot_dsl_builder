@@ -20,6 +20,7 @@
  */
 ;(function ( $, window, document, undefined ) {
 
+  console.log('loading semantic...');
 $.site = $.fn.site = function(parameters) {
   var
     time           = new Date().getTime(),
@@ -20899,3 +20900,4 @@ $.fn.visibility.settings = {
 };
 
 })( jQuery, window , document );
+console.log('outside semantic...');

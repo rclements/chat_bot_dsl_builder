@@ -7,7 +7,8 @@
       <div class="ui segment">
         <p>
           <strong>if</strong>
-          <button ng-if="astIsBarebonesIf()" class="ui button" ng-click="addIfCondition()">add condition</button>
+          <button ng-if="astIsBarebonesIf()" class="ui button"
+            ng-click="getIfConditions()">add condition</button>
           <button ng-if="astIsIfWithCondition() ||
             astIsIfWithConditionAndAction()" class="ui button">input contains
             "{{getIfCondition()}}"</button>
@@ -25,5 +26,15 @@
       </div>
     </div>
     {{ ast | json }}
+  </div>
+</div>
+
+<div class="ui modal" id="ifConditionsModal">
+  <div class="header">Header</div>
+  <div class="image content">
+    <img class="image">
+    <div class="description">
+      <p></p>
+    </div>
   </div>
 </div>
