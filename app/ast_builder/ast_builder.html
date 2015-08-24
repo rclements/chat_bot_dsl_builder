@@ -3,47 +3,7 @@
     <div ng-if="astIsEmpty()">
       <button class="ui button" ng-click="createBlock('if')">+</button>
     </div>
-    <div ng-if="!astIsEmpty()">
-      <div class="ui segment">
-        <p>
-          <strong>if</strong>
-          <button ng-if="astIfConditionIsPlaceholder()" class="ui button"
-            ng-click="getIfConditions()">add condition</button>
-          <button ng-if="!astIfConditionIsPlaceholder()" ng-click="getIfConditions()" class="ui button">input contains
-            "{{getIfCondition()}}"</button>
-          <strong>then</strong>
-        </p>
-        <div class="ui segment">
-          <button ng-if="astIfActionIsPlaceholder()" class="ui button"
-            ng-click="getIfActions()">Add action</button>
-          <p ng-if="!astIfActionIsPlaceholder()">
-            respond with {{action | json}}
-          </p>
-        </div>
-        <p>
-          <strong>end</strong>
-        </p>
-      </div>
-    </div>
+    <ast-element data-ast="ast"></ast-element>
     {{ ast | json }}
   </div>
-
-  <div class="ui modal" id="ifConditionsModal">
-    <div class="header">Choose if Condition</div>
-    <div class"content">
-      <ul ng-repeat="condition in availableIfConditions">
-        <li ng-click="setIfCondition(condition)">{{condition | json}}</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="ui modal" id="ifActionsModal">
-    <div class="header">Choose if Action</div>
-    <div class"content">
-      <ul ng-repeat="action in availableIfActions">
-        <li ng-click="setIfAction(action)">{{action | json}}</li>
-      </ul>
-    </div>
-  </div>
-
 </div>
