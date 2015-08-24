@@ -11,9 +11,10 @@
     <div class="ui segment">
       <button ng-if="actionIsPlaceholder()" class="ui button"
         ng-click="getActions()">Add action</button>
-      <p ng-if="!actionIsPlaceholder()">
-        respond with {{action | json}}
-      </p>
+      <button ng-if="!actionIsPlaceholder()" class="ui button"
+        ng-click="getActions()">
+        <ast-element data-ast="action"></ast-element>
+      </button>
     </div>
     <p>
       <strong>end</strong>

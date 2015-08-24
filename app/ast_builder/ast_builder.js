@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chatbotApp.AstBuilder', ['ngRoute'])
+angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/ast_builder', {
@@ -62,7 +62,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
     };
     scope.setAction = function(action) {
       console.log("setting ", action);
-      $scope.action = action;
+      scope.action = action;
       scope.updateAst();
       angular.element('.ifActionsModal')
         .modal('hide');
@@ -117,7 +117,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
   }
 }])
 
-.directive("astElement", [function(){
+.directive("astElement", ["RecursionHelper", function(RecursionHelper){
   return {
     scope: {
       ast: "="
@@ -128,7 +128,24 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute'])
         return angular.equals($scope.ast[0], "tuple") &&
           angular.equals($scope.ast[1], ["atom", "if"]);
       };
+      $scope.astIsResponse = function(){
+        return angular.equals($scope.ast[0], "response");
+      };
+    },
+    compile: function(element) {
+      return RecursionHelper.compile(element, function(scope, iElement, iAttrs, controller, transcludeFn){
+        // normal link function goes here
+      });
     }
+  }
+}])
+
+.directive("astResponse", [function(){
+  return {
+    scope: {
+      ast: "="
+    },
+    templateUrl: "./ast_builder/ast_response.html"
   }
 }])
 ;
