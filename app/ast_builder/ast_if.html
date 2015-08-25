@@ -2,40 +2,14 @@
   <div class="ui segment">
     <p>
       <strong>if</strong>
-      <button ng-if="conditionIsPlaceholder()" class="ui button"
-        ng-click="getConditions()">add condition</button>
-      <button ng-if="!conditionIsPlaceholder()" ng-click="getConditions()" class="ui button">input contains
-        "{{getCondition()}}"</button>
+      <ast-element data-ast="ast.left"></ast-element>
       <strong>then</strong>
     </p>
     <div class="ui segment">
-      <button ng-if="actionIsPlaceholder()" class="ui button"
-        ng-click="getActions()">Add action</button>
-      <button ng-if="!actionIsPlaceholder()" class="ui button"
-        ng-click="getActions()">
-        <ast-element data-ast="action"></ast-element>
-      </button>
+      <ast-element data-ast="ast.right"></ast-element>
     </div>
     <p>
       <strong>end</strong>
     </p>
-  </div>
-
-  <div class="ui modal ifConditionsModal">
-    <div class="header">Choose if Condition</div>
-    <div class"content">
-      <ul ng-repeat="condition in availableIfConditions">
-        <li ng-click="setCondition(condition)">{{condition | json}}</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="ui modal ifActionsModal">
-    <div class="header">Choose if Action</div>
-    <div class"content">
-      <ul ng-repeat="action in availableIfActions">
-        <li ng-click="setAction(action)">{{action | json}}</li>
-      </ul>
-    </div>
   </div>
 </div>

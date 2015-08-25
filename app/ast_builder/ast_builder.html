@@ -1,8 +1,5 @@
 <div ng-controller="AstBuilderCtrl">
   <div class="ast">
-    <div ng-if="astIsEmpty()">
-      <button class="ui button" ng-click="createBlock('if')">+</button>
-    </div>
     <ast-element data-ast="ast"></ast-element>
     {{ ast | json }}
   </div>
