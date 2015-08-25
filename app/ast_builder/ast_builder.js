@@ -63,6 +63,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     },
     templateUrl: "./ast_builder/ast_element.html",
     controller: function($scope){
+      $scope.expressions = ["if", "contains", "response"];
       $scope.createBlock = function(type){
         if(type === 'if'){
           $scope.ast = {
