@@ -1,5 +1,4 @@
 <div class="ast-element">
-  {{ ast | json }}
   <div ng-if="astIsEmpty()">
     <div class="ui vertical menu" expression-menu>
       <div class="ui dropdown item">
@@ -10,7 +9,6 @@
         </div>
       </div>
     </div>
-
   </div>
   <div ng-if="astIsIf()">
     <ast-if data-ast="$parent.ast"></ast-if>

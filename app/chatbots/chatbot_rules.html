@@ -1,0 +1,22 @@
+<h1>Rules</h1>
+
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>AST</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="rule in rules">
+      <td>{{rule.id}}</td>
+      <td>{{rule.ast}}</td>
+      <td ng-click="editRule(rule)">Edit</td>
+    </tr>
+  </tbody
+</table>
+
+
+
+ 

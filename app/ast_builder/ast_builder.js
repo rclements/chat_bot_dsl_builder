@@ -79,6 +79,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
         return angular.equals($scope.ast, {});
       };
       $scope.astIsIf = function(){
+        console.log($scope.ast);
         return angular.equals($scope.ast.type, "if");
       };
       $scope.astIsResponse = function(){
@@ -103,9 +104,10 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     },
     templateUrl: "./ast_builder/ast_response.html",
     controller: function($scope){
-      $scope.response = $scope.ast.arguments[0].arguments[0];
+      console.log($scope.ast);
+      $scope.response = $scope.ast.arguments[0];
       $scope.updateResponse = function(){
-        $scope.ast.arguments[0].arguments[0] = $scope.response;
+        $scope.ast.arguments[0] = $scope.response;
       }
     }
   }

@@ -4,9 +4,11 @@
 angular.module('chatbotApp', [
   'ngRoute',
   'chatbotApp.AstBuilder',
+  'chatbotApp.Chatbots',
+  'chatbotApp.services',
   'chatbotApp.version'
 ]).
 
-config(['$routeProvider', function($routeProvider) {
+config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {
   $routeProvider.otherwise({redirectTo: '/ast_builder'});
 }]);
