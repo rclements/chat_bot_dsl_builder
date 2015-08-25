@@ -21,7 +21,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
         .modal('show');
     };
     scope.updateAst = function() {
-      scope.data.ast = [
+      scope.ast = [
         "tuple",
         ["atom", "if"],
         scope.condition,
@@ -56,20 +56,17 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     templateUrl: "./ast_builder/ast_if.html",
     link: link,
     controller: function($scope){
-      $scope.data = {
-        ast: $scope.ast
-      }
       $scope.condition = {};
       $scope.action = {};
 
       $scope.getCondition = function(){
-        return $scope.data.ast[2][3][1];
+        return $scope.ast[2][3][1];
       };
       $scope.conditionIsPlaceholder = function(){
-        return angular.equals($scope.data.ast[2], {});
+        return angular.equals($scope.ast[2], {});
       };
       $scope.actionIsPlaceholder = function(){
-        return angular.equals($scope.data.ast[3], {});
+        return angular.equals($scope.ast[3], {});
       };
     }
   }
