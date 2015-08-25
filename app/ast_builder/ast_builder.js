@@ -25,27 +25,6 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
 .directive("astIf", [function(){
   function link(scope, element, attrs) {
     angular.element('.ui.dropdown').dropdown();
-    scope.getConditions = function(){
-      // open modal
-      angular.element('.ifConditionsModal', element)
-        .modal('show');
-    };
-    scope.setCondition = function(condition) {
-      scope.ast.left = ["tuple"].concat(condition);
-      angular.element('.ifConditionsModal')
-        .modal('hide');
-    };
-    scope.getActions = function() {
-      // open modal
-      angular.element('.ifActionsModal', element)
-        .modal('show');
-    };
-    scope.setAction = function(action) {
-      console.log("setting ", action);
-      scope.ast.right = action;
-      angular.element('.ifActionsModal')
-        .modal('hide');
-    };
   }
 
   return {
@@ -56,12 +35,6 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     templateUrl: "./ast_builder/ast_if.html",
     link: link,
     controller: function($scope){
-      $scope.conditionIsPlaceholder = function(){
-        return angular.equals($scope.left, {});
-      };
-      $scope.actionIsPlaceholder = function(){
-        return angular.equals($scope.right, {});
-      };
     }
   }
 }])
@@ -79,21 +52,26 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
         if(type === 'if'){
           $scope.ast = {
             type: "if",
-            left: {},
-            right: {}
+            arguments: [
+              {}, {}
+            ]
           };
         }
         if(type === 'contains'){
           $scope.ast = {
             type: "contains",
-            left: "input",
-            right: ":tableflip"
+            arguments: [
+              {type: "var", arguments: [{type: "atom", arguments: ["input"]}]},
+              {type: "string", arguments: ["filthy"]}
+            ]
           };
         }
         if(type === 'response'){
           $scope.ast = {
             type: "response",
-            value: "response"
+            arguments: [
+              {type: "string", arguments: ["oh so dirty!"]}
+            ]
           }
         }
       };
@@ -125,9 +103,9 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     },
     templateUrl: "./ast_builder/ast_response.html",
     controller: function($scope){
-      $scope.response = $scope.ast[1];
+      $scope.response = $scope.ast.arguments[0].arguments[0];
       $scope.updateResponse = function(){
-        $scope.ast.value = $scope.response;
+        $scope.ast.arguments[0].arguments[0] = $scope.response;
       }
     }
   }
@@ -140,9 +118,9 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     },
     templateUrl: "./ast_builder/ast_contains.html",
     controller: function($scope){
-      $scope.containedText = $scope.ast.right;
+      $scope.containedText = $scope.ast.arguments[1].arguments[0];
       $scope.updateContainedText = function(){
-        $scope.ast.right = $scope.containedText;
+        $scope.ast.arguments[1].arguments[0] = $scope.containedText;
       }
     }
   }
