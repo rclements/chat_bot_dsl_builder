@@ -10,27 +10,6 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
 }])
 
 .controller('AstBuilderCtrl', ['$scope', function($scope) {
-  $scope.condition = ["placeholder"];
-  $scope.action    = ["placeholder"];
-  $scope.setAst = function(){
-    $scope.ast = ["tuple",
-                   ["atom", "if"],
-                   $scope.condition,
-                   $scope.action
-                 ];
-  };
-
-  $scope.createBlock = function(type){
-    if(type === 'if'){
-      $scope.setAst();
-    }
-  };
-  $scope.astIsEmpty = function(){
-    return angular.equals($scope.ast, {});
-  };
-  $scope.astIsBarebonesIfWithPlaceholder = function(){
-    return angular.equals($scope.condition, ["placeholder"]);
-  };
   $scope.ast = {};
 }])
 
@@ -42,7 +21,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
         .modal('show');
     };
     scope.updateAst = function() {
-      scope.ast = [
+      scope.data.ast = [
         "tuple",
         ["atom", "if"],
         scope.condition,
@@ -77,41 +56,20 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     templateUrl: "./ast_builder/ast_if.html",
     link: link,
     controller: function($scope){
-      $scope.condition = "placeholder";
-      $scope.action = "placeholder";
-      $scope.availableIfConditions = [
-        [
-          ["atom",   "contains"],
-          ["var",    "input"],
-          ["string", ":tableflip:"]
-        ],
-        [
-          ["atom",   "contains"],
-          ["var",    "input"],
-          ["string", "filthy"]
-        ]
-      ];
+      $scope.data = {
+        ast: $scope.ast
+      }
+      $scope.condition = {};
+      $scope.action = {};
 
-      $scope.availableIfActions = [
-        ["response", "(╯°□°）╯︵ ┻━┻"]
-      ];
-
-      $scope.addCondition = function(){
-        $scope.setAst();
-      };
-      $scope.addAction = function(){
-        $scope.setAst();
-      };
       $scope.getCondition = function(){
-        console.log("getCondition");
-        console.log($scope.ast);
-        return $scope.ast[2][3][1];
+        return $scope.data.ast[2][3][1];
       };
       $scope.conditionIsPlaceholder = function(){
-        return angular.equals($scope.ast[2], ["placeholder"]);
+        return angular.equals($scope.data.ast[2], {});
       };
       $scope.actionIsPlaceholder = function(){
-        return angular.equals($scope.ast[3], ["placeholder"]);
+        return angular.equals($scope.data.ast[3], {});
       };
     }
   }
@@ -124,12 +82,38 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     },
     templateUrl: "./ast_builder/ast_element.html",
     controller: function($scope){
+      $scope.createBlock = function(type){
+        if(type === 'if'){
+          $scope.ast = [
+            "tuple",
+            ["atom", "if"],
+            {},
+            {}
+          ];
+        }
+        if(type === 'contains'){
+          $scope.ast = [
+            ["atom",   "contains"],
+            ["var",    "input"],
+            ["string", ":tableflip:"]
+          ];
+        }
+        if(type === 'response'){
+          $scope.ast = ["response", ""];
+        }
+      };
+      $scope.astIsEmpty = function(){
+        return angular.equals($scope.ast, {});
+      };
       $scope.astIsIf = function(){
         return angular.equals($scope.ast[0], "tuple") &&
           angular.equals($scope.ast[1], ["atom", "if"]);
       };
       $scope.astIsResponse = function(){
         return angular.equals($scope.ast[0], "response");
+      };
+      $scope.astIsContains = function(){
+        return angular.equals($scope.ast[0], ["atom", "contains"]);
       };
     },
     compile: function(element) {
@@ -145,7 +129,28 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     scope: {
       ast: "="
     },
-    templateUrl: "./ast_builder/ast_response.html"
+    templateUrl: "./ast_builder/ast_response.html",
+    controller: function($scope){
+      $scope.response = $scope.ast[1];
+      $scope.updateResponse = function(){
+        $scope.ast[1] = $scope.response;
+      }
+    }
+  }
+}])
+
+.directive("astContains", [function(){
+  return {
+    scope: {
+      ast: "="
+    },
+    templateUrl: "./ast_builder/ast_contains.html",
+    controller: function($scope){
+      $scope.containedText = $scope.ast[2][1];
+      $scope.updateContainedText = function(){
+        $scope.ast[2][1] = $scope.containedText;
+      }
+    }
   }
 }])
 ;

@@ -1,8 +1,20 @@
 <div class="ast-element">
+  {{ ast | json }}
+  <div ng-if="astIsEmpty()">
+    <button class="ui button" ng-click="createBlock('if')">+ if</button>
+    <button class="ui button" ng-click="createBlock('contains')">+ contains</button>
+    <button class="ui button" ng-click="createBlock('response')">+ response</button>
+  </div>
   <div ng-if="astIsIf()">
     <ast-if data-ast="ast"></ast-if>
   </div>
+  <div ng-if="astIsContains()">
+    <ast-contains data-ast="ast"></ast-contains>
+  </div>
   <div ng-if="astIsResponse()">
     <ast-response data-ast="ast"></ast-response>
+  </div>
+  <div ng-if="astIsUnknown()">
+    {{ ast | json }}
   </div>
 </div>
