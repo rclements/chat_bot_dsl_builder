@@ -1,16 +1,15 @@
 <div class="ast-element">
-  {{ ast | json }}
   <div ng-if="astIsEmpty()">
     <select ng-model="selectedExpression" ng-change="createBlock(selectedExpression)" ng-options="e as e for e in expressions"></select>
   </div>
   <div ng-if="astIsIf()">
-    <ast-if data-ast="$parent.ast"></ast-if>
+    <ast-if data-ast="ast"></ast-if>
   </div>
   <div ng-if="astIsContains()">
-    <ast-contains data-ast="$parent.ast"></ast-contains>
+    <ast-contains data-ast="ast"></ast-contains>
   </div>
   <div ng-if="astIsResponse()">
-    <ast-response data-ast="$parent.ast"></ast-response>
+    <ast-response data-ast="ast"></ast-response>
   </div>
   <div ng-if="astIsUnknown()">
     {{ ast | json }}
