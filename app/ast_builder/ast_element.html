@@ -1,7 +1,16 @@
 <div class="ast-element">
   {{ ast | json }}
   <div ng-if="astIsEmpty()">
-    <select ng-model="selectedExpression" ng-change="createBlock(selectedExpression)" ng-options="e as e for e in expressions"></select>
+    <div class="ui vertical menu" expression-menu>
+      <div class="ui dropdown item">
+        Expressions
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <a class="item" ng-click="createBlock(expression)" ng-repeat="expression in expressions">{{expression}}</a>
+        </div>
+      </div>
+    </div>
+
   </div>
   <div ng-if="astIsIf()">
     <ast-if data-ast="$parent.ast"></ast-if>
