@@ -13,8 +13,18 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
   $scope.ast = {};
 }])
 
+.directive('expressionMenu', [function() {
+  return {
+      restrict: 'A',
+      link: function(scope, elem, attrs) {
+        angular.element('.ui.dropdown').dropdown();
+      }
+    };
+}])
+
 .directive("astIf", [function(){
   function link(scope, element, attrs) {
+    angular.element('.ui.dropdown').dropdown();
     scope.getConditions = function(){
       // open modal
       angular.element('.ifConditionsModal', element)
@@ -63,6 +73,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     },
     templateUrl: "./ast_builder/ast_element.html",
     controller: function($scope){
+
       $scope.expressions = ["if", "contains", "response"];
       $scope.createBlock = function(type){
         if(type === 'if'){
