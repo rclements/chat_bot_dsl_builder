@@ -81,36 +81,37 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     controller: function($scope){
       $scope.createBlock = function(type){
         if(type === 'if'){
-          $scope.ast = [
-            "tuple",
-            ["atom", "if"],
-            {},
-            {}
-          ];
+          $scope.ast = {
+            type: "if",
+            left: {},
+            right: {}
+          };
         }
         if(type === 'contains'){
-          $scope.ast = [
-            ["atom",   "contains"],
-            ["var",    "input"],
-            ["string", ":tableflip:"]
-          ];
+          $scope.ast = {
+            type: "contains",
+            left: "input",
+            right: ":tableflip"
+          };
         }
         if(type === 'response'){
-          $scope.ast = ["response", ""];
+          $scope.ast = {
+            type: "response",
+            value: "response"
+          }
         }
       };
       $scope.astIsEmpty = function(){
         return angular.equals($scope.ast, {});
       };
       $scope.astIsIf = function(){
-        return angular.equals($scope.ast[0], "tuple") &&
-          angular.equals($scope.ast[1], ["atom", "if"]);
+        return angular.equals($scope.ast.type, "if");
       };
       $scope.astIsResponse = function(){
-        return angular.equals($scope.ast[0], "response");
+        return angular.equals($scope.ast.type, "response");
       };
       $scope.astIsContains = function(){
-        return angular.equals($scope.ast[0], ["atom", "contains"]);
+        return angular.equals($scope.ast.type, "contains");
       };
     },
     compile: function(element) {
@@ -130,7 +131,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     controller: function($scope){
       $scope.response = $scope.ast[1];
       $scope.updateResponse = function(){
-        $scope.ast[1] = $scope.response;
+        $scope.ast.value = $scope.response;
       }
     }
   }
@@ -143,9 +144,9 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     },
     templateUrl: "./ast_builder/ast_contains.html",
     controller: function($scope){
-      $scope.containedText = $scope.ast[2][1];
+      $scope.containedText = $scope.ast.right;
       $scope.updateContainedText = function(){
-        $scope.ast[2][1] = $scope.containedText;
+        $scope.ast.right = $scope.containedText;
       }
     }
   }

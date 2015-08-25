@@ -6,13 +6,13 @@
     <button class="ui button" ng-click="createBlock('response')">+ response</button>
   </div>
   <div ng-if="astIsIf()">
-    <ast-if data-ast="ast"></ast-if>
+    <ast-if data-ast="$parent.ast"></ast-if>
   </div>
   <div ng-if="astIsContains()">
-    <ast-contains data-ast="ast"></ast-contains>
+    <ast-contains data-ast="$parent.ast"></ast-contains>
   </div>
   <div ng-if="astIsResponse()">
-    <ast-response data-ast="ast"></ast-response>
+    <ast-response data-ast="$parent.ast"></ast-response>
   </div>
   <div ng-if="astIsUnknown()">
     {{ ast | json }}
