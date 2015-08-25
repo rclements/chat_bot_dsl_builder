@@ -20,17 +20,8 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
       angular.element('.ifConditionsModal', element)
         .modal('show');
     };
-    scope.updateAst = function() {
-      scope.ast = [
-        "tuple",
-        ["atom", "if"],
-        scope.condition,
-        scope.action
-      ];
-    }
     scope.setCondition = function(condition) {
-      scope.condition =  ["tuple"].concat(condition);
-      scope.updateAst();
+      scope.ast.left = ["tuple"].concat(condition);
       angular.element('.ifConditionsModal')
         .modal('hide');
     };
@@ -41,8 +32,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     };
     scope.setAction = function(action) {
       console.log("setting ", action);
-      scope.action = action;
-      scope.updateAst();
+      scope.ast.right = action;
       angular.element('.ifActionsModal')
         .modal('hide');
     };
@@ -56,17 +46,11 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
     templateUrl: "./ast_builder/ast_if.html",
     link: link,
     controller: function($scope){
-      $scope.condition = {};
-      $scope.action = {};
-
-      $scope.getCondition = function(){
-        return $scope.ast[2][3][1];
-      };
       $scope.conditionIsPlaceholder = function(){
-        return angular.equals($scope.ast[2], {});
+        return angular.equals($scope.left, {});
       };
       $scope.actionIsPlaceholder = function(){
-        return angular.equals($scope.ast[3], {});
+        return angular.equals($scope.right, {});
       };
     }
   }
