@@ -1,11 +1,16 @@
 <h1>Rules</h1>
 
+<a ng-click="newRule()">New Rule<a>
+|
+<a ng-click="back()">Back<a>
+
 <table class="ui celled table">
   <thead>
     <tr>
       <th>ID</th>
       <th>AST</th>
       <th>Edit</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -13,6 +18,7 @@
       <td>{{rule.id}}</td>
       <td>{{rule.ast}}</td>
       <td ng-click="editRule(rule)">Edit</td>
+      <td ng-click="deleteRule(rule)">Delete</td>
     </tr>
   </tbody
 </table>
