@@ -1,7 +1,9 @@
-<h1>Rule {{rule.id}}</h1>
+<h1>New Rule</h1>
 
-<button ng-click="saveRule()">Save</button>
+<button ng-click="addRule()">Add Rule</button>
+|
 <a ng-click="back()">Back<a>
+
 <div class="ast">
   <ast-element data-ast="rule.ast"></ast-element>
   {{ rule.ast | json }}
