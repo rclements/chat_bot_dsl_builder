@@ -1,11 +1,16 @@
 <h1>Chatbots</h1>
 
-<div>
-  <form>
-    <input ng-model="chatbot.name"></input>
-    <button ng-click="addChatbot(chatbot.name)">Create new chatbot</button>
-  </form>
-</div>
+<form class="ui form">
+  <div class="inline fields">
+    <div class="eight wide field">
+      <label>Name</label>
+      <input ng-model="chatbot.name"></input>
+    </div>
+    <div class="eight wide field">
+      <button class="ui primary button" ng-click="addChatbot(chatbot.name)">Create new chatbot</button>
+    </div>
+  </div>
+</form>
 
 <table class="ui celled table chatbots">
   <thead>
@@ -19,14 +24,19 @@
     <tr ng-repeat="chatbot in chatbots" ng-click="showChatbotRules(chatbot)">
       <td>{{chatbot.id}}</td>
       <td>{{chatbot.name}}</td>
-      <td><a href='#' ng-click="removeChatbot(chatbot)">Remove</a></td>
+      <td><a ng-click="removeChatbot(chatbot); $event.stopPropagation()">Remove</a></td>
     </tr>
   </tbody>
 </table>
 
-<div>
-  <form>
-    <input ng-model="chatbot.name"></input>
-    <button ng-click="addChatbot(chatbot.name)">Create new chatbot</button>
-  </form>
-</div>
+<form class="ui form">
+  <div class="inline fields">
+    <div class="eight wide field">
+      <label>Name</label>
+      <input ng-model="chatbot.name"></input>
+    </div>
+    <div class="eight wide field">
+      <button class="ui primary button" ng-click="addChatbot(chatbot.name)">Create new chatbot</button>
+    </div>
+  </div>
+</form>

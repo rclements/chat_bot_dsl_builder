@@ -1,8 +1,7 @@
 <h1>Rules</h1>
 
-<a ng-click="newRule()">New Rule<a>
-|
-<a ng-click="back()">Back<a>
+<button class="ui primary button" ng-click="newRule()">New Rule</button>
+<button class="ui button" ng-click="back()">Back</button>
 
 <table class="ui celled table">
   <thead>
@@ -16,8 +15,8 @@
     <tr ng-repeat="rule in rules" ng-click="editRule(rule)">
       <td>{{rule.id}}</td>
       <td>{{rule.ast}}</td>
-      <td><a href='#' ng-click="deleteRule(rule)">Delete</a></td>
+      <td><a ng-click="deleteRule(rule); $event.stopPropagation()">Delete</a></td>
     </tr>
   </tbody>
 </table>
- 
+

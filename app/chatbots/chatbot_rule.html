@@ -1,8 +1,11 @@
 <h1>Rule {{rule.id}}</h1>
 
-<button ng-click="saveRule()">Save</button>
-<a ng-click="back()">Back<a>
-<div class="ast">
+<button class="ui primary button" ng-click="saveRule()">Save</button>
+<button class="ui button" ng-click="back()">Back</button>
+
+<div class="ui divider"></div>
+
+<div class="ast ui form">
   <ast-element data-ast="rule.ast"></ast-element>
   {{ rule.ast | json }}
 </div>

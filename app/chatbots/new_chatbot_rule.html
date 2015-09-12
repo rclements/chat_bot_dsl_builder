@@ -1,10 +1,11 @@
 <h1>New Rule</h1>
 
-<button ng-click="addRule()">Add Rule</button>
-|
-<a ng-click="back()">Back<a>
+<button class="ui primary button" ng-click="addRule()">Save</button>
+<button class="ui button" ng-click="back()">Back</button>
 
-<div class="ast">
+<div class="ui divider"></div>
+
+<div class="ast ui form">
   <ast-element data-ast="rule.ast"></ast-element>
   {{ rule.ast | json }}
 </div>
