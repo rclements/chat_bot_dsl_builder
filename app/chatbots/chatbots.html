@@ -1,6 +1,13 @@
 <h1>Chatbots</h1>
 
-<table class="ui celled table">
+<div>
+  <form>
+    <input ng-model="chatbot.name"></input>
+    <button ng-click="addChatbot(chatbot.name)">Create new chatbot</button>
+  </form>
+</div>
+
+<table class="ui celled table chatbots">
   <thead>
     <tr>
       <th>ID</th>
@@ -9,14 +16,17 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="chatbot in chatbots">
-      <td ng-click="showChatbotRules(chatbot)">{{chatbot.id}}</td>
-      <td ng-click="showChatbotRules(chatbot)">{{chatbot.name}}</td>
-      <td ng-click="removeChatbot(chatbot)">Remove</td>
+    <tr ng-repeat="chatbot in chatbots" ng-click="showChatbotRules(chatbot)">
+      <td>{{chatbot.id}}</td>
+      <td>{{chatbot.name}}</td>
+      <td><a href='#' ng-click="removeChatbot(chatbot)">Remove</a></td>
     </tr>
-  </tbody
+  </tbody>
 </table>
 
-
-<input ng-model="chatbot.name"></input>
-<button ng-click="addChatbot(chatbot.name)">Submit</button>
+<div>
+  <form>
+    <input ng-model="chatbot.name"></input>
+    <button ng-click="addChatbot(chatbot.name)">Create new chatbot</button>
+  </form>
+</div>

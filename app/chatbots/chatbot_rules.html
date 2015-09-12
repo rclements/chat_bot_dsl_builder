@@ -9,20 +9,15 @@
     <tr>
       <th>ID</th>
       <th>AST</th>
-      <th>Edit</th>
       <th>Delete</th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="rule in rules">
+    <tr ng-repeat="rule in rules" ng-click="editRule(rule)">
       <td>{{rule.id}}</td>
       <td>{{rule.ast}}</td>
-      <td ng-click="editRule(rule)">Edit</td>
-      <td ng-click="deleteRule(rule)">Delete</td>
+      <td><a href='#' ng-click="deleteRule(rule)">Delete</a></td>
     </tr>
-  </tbody
+  </tbody>
 </table>
-
-
-
  

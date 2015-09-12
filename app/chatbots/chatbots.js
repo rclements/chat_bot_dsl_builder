@@ -25,19 +25,26 @@ angular.module('chatbotApp.Chatbots', ['ngRoute'])
   });
 }])
 
-.controller('ChatbotsCtrl', ['$scope', '$location', 'ChatbotsFactory', 'ChatbotFactory', function($scope, $location, ChatbotsFactory, ChatbotFactory) {
-
-  var chatbots = ChatbotsFactory.query(function(){
-    $scope.chatbots = chatbots.data;
+.controller('ChatbotsCtrl', ['$scope', '$location', 'ChatbotFactory', function($scope, $location, ChatbotFactory) {
+  ChatbotFactory.query().then(function(chatbots){
+    $scope.chatbots = chatbots.data.data;
   });
 
   $scope.addChatbot = function(name) {
-    ChatbotsFactory.create({chatbot: {name: name}});
-    $location.path('/chatbots');
+    ChatbotFactory.create({chatbot: {name: name}}).then(function() {
+      ChatbotFactory.query().then(function(chatbots){
+        $scope.chatbots = chatbots.data.data;
+      });
+    });
   };
 
   $scope.removeChatbot = function(chatbot) {
-    ChatbotsFactory.delete(chatbot.id);
+    ChatbotFactory.delete(chatbot.id).then(function() {
+      ChatbotFactory.query().then(function(chatbots){
+        $scope.chatbots = chatbots.data.data;
+      });
+    });
+    return false;
   };
 
   $scope.showChatbot = function(chatbot) {
@@ -64,9 +71,9 @@ angular.module('chatbotApp.Chatbots', ['ngRoute'])
 }])
 
 .controller('ChatbotRulesCtrl', ['$scope', '$routeParams', '$location', 'ChatbotRulesFactory', '$http', function($scope, $routeParams, $location, ChatbotRulesFactory, $http) {
-  var rules = ChatbotRulesFactory.show({id: $routeParams.id}, function() {
-    console.log(rules);
-    $scope.rules = rules.data;
+  ChatbotRulesFactory.query($routeParams.id).then(function(rules){
+    $scope.rules = rules.data.data;
+    console.log($scope.rules);
   });
 
   $scope.back = function() {
@@ -78,8 +85,11 @@ angular.module('chatbotApp.Chatbots', ['ngRoute'])
   };
 
   $scope.deleteRule = function(rule) {
-    $http.delete(baseUrl + '/chatbots/' + $routeParams.id + '/rules/' + rule.id).then(function(){ alert('yay'); });
-    $location.path('/chatbots/' + $routeParams.id + '/rules/');
+    ChatbotRulesFactory.delete($routeParams.id, rule.id).then(function(){
+      ChatbotRulesFactory.show($routeParams.id).then(function(rules){
+        $scope.rules = rules.data.data;
+      });
+    });
   };
 
   $scope.newRule = function() {
@@ -87,13 +97,14 @@ angular.module('chatbotApp.Chatbots', ['ngRoute'])
   }
 }])
 
-.controller('ChatbotRuleCtrl', ['$scope', '$routeParams', '$location', 'ChatbotRuleFactory', '$http', function($scope, $routeParams, $location, ChatbotRuleFactory, $http) {
+.controller('ChatbotRuleCtrl', ['$scope', '$routeParams', '$location', 'ChatbotRulesFactory', '$http', function($scope, $routeParams, $location, ChatbotRulesFactory, $http) {
   $scope.rule = {};
-  var rule = ChatbotRuleFactory.show({id: $routeParams.id, rule_id: $routeParams.rule_id}, function() {
-    console.log(rule.data);
+  ChatbotRulesFactory.show($routeParams.id, $routeParams.rule_id).then(function(rule) {
+    rule = rule.data.data;
+    console.log(rule);
     $scope.rule = {
-      id: rule.data.id,
-      ast: JSON.parse(rule.data.ast)
+      id: rule.id,
+      ast: JSON.parse(rule.ast)
     };
   });
  
@@ -102,17 +113,16 @@ angular.module('chatbotApp.Chatbots', ['ngRoute'])
   };
 
   $scope.saveRule = function() {
-    $http.put(baseUrl + '/api/chatbots/' + $routeParams.id + '/rules/' + $scope.rule.id, {rule: {id: $scope.rule.id, ast: JSON.stringify($scope.rule.ast)}})
-    .then(function(){
-      alert('yay');
-    });
+    ChatbotRulesFactory.update($routeParams.id, $scope.rule.id, {rule: $scope.rule}).then(function(){
+      $location.path('/chatbots/' + $routeParams.id + "/rules");
+    })
   }
 }])
 
-.controller('ChatbotNewRuleCtrl', ['$scope', '$routeParams', '$location', 'ChatbotRulesFactory', '$http', function($scope, $routeParams, $location, ChatbotRulesFactory, $http) {
+.controller('ChatbotNewRuleCtrl', ['$scope', '$routeParams', '$location', '$http', function($scope, $routeParams, $location, $http) {
   $scope.rule = { ast: {} };
   $scope.addRule = function() {
-    $http.post(baseUrl + '/api/chatbots/' + $routeParams.id + '/rules/', {rule: {chatbot_id: $routeParams.id, ast: JSON.stringify($scope.rule.ast)}})
+    $http.post(baseUrl + '/api/chatbots/' + $routeParams.id + '/rules/', {rule: { ast: JSON.stringify($scope.rule.ast) }})
     .then(function(){
       alert('yay');
     });
@@ -125,37 +135,46 @@ angular.module('chatbotApp.Chatbots', ['ngRoute'])
 
 var services = angular.module('chatbotApp.services', ['ngResource']);
 
-var baseUrl = 'http://192.168.0.151:4000';
+var baseUrl = 'http://localhost:4000';
 
-services.factory('ChatbotsFactory', function ($resource) {
-  return $resource(baseUrl + '/api/chatbots', {}, {
-    query: { method: 'GET' },
-    create: { method: 'POST' }
-  })
+services.factory('ChatbotFactory', function ($http) {
+  var chatbotsUrl = baseUrl + "/api/chatbots";
+  return {
+    query: function() {
+            return $http.get(chatbotsUrl);
+           },
+    create: function(chatbot) {
+            return $http.post(chatbotsUrl, chatbot);
+            },
+    show: function(chatbot){
+            return $http.get(chatbotsUrl + "/" + chatbot.id);
+          },
+    update: function(chatbot){
+            return $http.put(chatbotsUrl + "/" + chatbot.id, chatbot);
+          },
+    delete: function(chatbot_id){
+            return $http.delete(chatbotsUrl + "/" + chatbot_id);
+          }
+  };
 });
 
-services.factory('ChatbotFactory', function ($resource) {
-  return $resource(baseUrl + '/api/chatbots/:id', {}, {
-    show: { method: 'GET' },
-    update: { method: 'PUT', params: {id: '@id'} },
-    delete: { method: 'DELETE', params: {id: '@id'} }
-  })
+services.factory('ChatbotRulesFactory', function ($http) {
+  var chatbotRulesUrl = baseUrl + "/api/chatbots";
+  return {
+    query: function(chatbot_id) {
+            return $http.get(chatbotRulesUrl + "/" + chatbot_id + "/rules");
+           },
+    create: function(chatbot_id, rule) {
+            return $http.post(chatbotRulesUrl + "/" + chatbot_id + "/rules", { rule: { ast: rule.ast } });
+            },
+    show: function(chatbot_id, rule_id){
+            return $http.get(chatbotRulesUrl + "/" + chatbot_id + "/rules/" + rule_id);
+          },
+    update: function(chatbot_id, rule_id, rule){
+            return $http.put(chatbotRulesUrl + "/" + chatbot_id + "/rules/" + rule_id, rule);
+          },
+    delete: function(chatbot_id, rule_id){
+            return $http.delete(chatbotRulesUrl + "/" + chatbot_id + "/rules/" + rule_id);
+          }
+  };
 });
-
-services.factory('ChatbotRulesFactory', function ($resource) {
-  return $resource(baseUrl + '/api/chatbots/:id/rules', {}, {
-    create: { method: 'POST' },
-    show: { method: 'GET' },
-    update: { method: 'PUT', params: {id: '@id'} },
-    delete: { method: 'DELETE', params: {id: '@id'} }
-  })
-});
-
-services.factory('ChatbotRuleFactory', function ($resource) {
-  return $resource(baseUrl + '/api/chatbots/:id/rules/:rule_id', {}, {
-    show: { method: 'GET' },
-    update: { method: 'PUT', params: {rule_id: '@rule_id', id: '@id'} },
-    delete: { method: 'DELETE', params: {rule_id: '@rule_id', id: '@id'} }
-  })
-});
-

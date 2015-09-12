@@ -1,1 +1,5 @@
 /* app css stylesheet */
+table tbody tr:hover {
+  cursor: pointer;
+  background-color: #eee;
+}
