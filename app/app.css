@@ -6,3 +6,8 @@ table tbody tr:hover {
 a {
   cursor: pointer;
 }
+
+.ast-preview {
+  font-size: 1.5rem;
+  line-height: 1.5em;
+}
