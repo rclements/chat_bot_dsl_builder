@@ -1,5 +1,5 @@
 /*******************************
-     User Global Variables
+    User Variable Overrides
 *******************************/
 
-@primaryColor   : #e91d63;
+@miniWidth: 20px;

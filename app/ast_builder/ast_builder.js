@@ -70,7 +70,7 @@ angular.module('chatbotApp.AstBuilder', ['ngRoute', 'RecursionHelper'])
           $scope.ast = {
             type: "response",
             arguments: [
-              {type: "string", arguments: ["oh so dirty!"]}
+              "oh so dirty!"
             ]
           }
         }
