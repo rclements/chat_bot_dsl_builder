@@ -7,5 +7,7 @@
 
 <div class="ast ui form">
   <ast-element data-ast="rule.ast"></ast-element>
-  {{ rule.ast | json }}
+  <div class="ui inverted segment ast-preview">
+    <pre>{{ rule.ast | ppjson }}</pre>
+  </div>
 </div>
